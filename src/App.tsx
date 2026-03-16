@@ -1,121 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import Article from "./components/Article/article";
+import MyFirstComponent from "./components/FirstComponent/MyFirstComponent";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+function MyButton() {
+  return <button>This is My Button</button>;
 }
 
-export default App
+const showArticle = true;
+
+function App() {
+  const tasks = [
+    {
+      id: 1,
+      title: "Doing My Homework",
+    },
+    {
+      id: 2,
+      title: "Watching Movies",
+    },
+    {
+      id: 3,
+      title: "Playing Games",
+    },
+    {
+      id: 4, 
+      title: "Sleeping",
+    },
+  ];
+
+  const myTasksList = tasks.map((task) => {
+    return <li key={task.id}>{task.title}</li>;
+  });
+  return (
+    <>
+      <MyFirstComponent />
+      <h1>Welcome to My App</h1>
+      <MyButton />
+      <hr />
+
+      {/* Conditional Rendering */}
+      {showArticle && <AppArticle />}
+      {/* or */}
+      {/* showArticle ? <MyButton /> : null */}
+      <hr />
+      {/* Rendering List */}
+      <div>
+        <ul>
+          {/*tasks.map((task) => (
+            <li>{task}</li>
+          )) */}
+          {/* or */}
+          {myTasksList}
+        </ul>
+      </div>
+    </>
+  );
+}
+
+function AppArticle() {
+  return (
+    <>
+      {/* passing props */}
+      <Article
+        name="Belal"
+        email="belal@gmail.com"
+        age="2004"
+        content="loremdkdkdkdkdkkkkkkkkkkkkk"
+      >
+        <h1>Hello World</h1>
+      </Article>
+      <Article name="Yarob" email="yarob@gmail.com" age="1996" />
+      <hr />
+      <Article name="Yussif" email="yussif@gmail.com" age="2010" />
+    </>
+  );
+}
+export default App;
