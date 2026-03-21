@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
 /* eslint-disable react-hooks/immutability */
 import Article from "./components/Article/article";
@@ -11,133 +12,159 @@ function MyButton() {
   return <button>This is My Button</button>;
 }
 
-const showArticle = true;
+// Reusable Title Component
+function SectionTitle({ title }) {
+  return (
+    <h1 style={{ textAlign: "start", color: "green" }}>
+      {title}
+      <br />
+      ----------------------
+    </h1>
+  );
+}
 
+const showArticle = true;
 function App() {
+  // Static Data
   const tasks = [
-    {
-      id: 1,
-      title: "Doing My Homework",
-    },
-    {
-      id: 2,
-      title: "Watching Movies",
-    },
-    {
-      id: 3,
-      title: "Playing Games",
-    },
-    {
-      id: 4,
-      title: "Sleeping",
-    },
+    { id: 1, title: "Doing My Homework" },
+    { id: 2, title: "Watching Movies" },
+    { id: 3, title: "Playing Games" },
+    { id: 4, title: "Sleeping" },
   ];
 
-  const myTasksList = tasks.map((task) => {
-    return <li key={task.id}>{task.title}</li>;
-  });
-
+  // State
   const [devices, setDevices] = useState([
-    "iPhone",
-    "Mac",
-    "Samsung",
-    "Windows",
+    { id: 1, name: "iPhone" },
+    { id: 2, name: "Mac" },
+    { id: 3, name: "Samsung" },
+    { id: 4, name: "Windows" },
   ]);
-  // const devices = ["iPhone", "Mac", "Samsung", "Windows"];
-  const myDevices = devices.map((device) => {
-    return <li>{device}</li>;
-  });
-  let [newDeviceName, setNewDeviceName] = useState("");
+
+  const [newDevice, setNewDevice] = useState("");
+
+  // Handlers
+  const handleAddDevice = () => {
+    if (!newDevice.trim()) return;
+
+    const newItem = {
+      id: devices.length + 1,
+      name: newDevice,
+    };
+
+    setDevices([...devices, newItem]);
+    setNewDevice(""); // Reset the input
+  };
+
+  const handleDeleteDevice = (id: number) => {
+    // const newDevices = [...devices];
+    // let index = 0;
+    // let selectedIndex = 0;
+    // for (let device of newDevices) {
+    //   if (device.id === id) {
+    //     selectedIndex = index;
+    //   }
+    //   index++;
+    // }
+    // newDevices.splice(selectedIndex, 1);
+    // setDevices(newDevices);
+    // or
+
+    setDevices((oldDevices) => oldDevices.filter((device) => device.id !== id));
+  };
+
+  const handleEditClick = (id: number) => {
+    const newDevices = devices.map((device) => {
+      if (device.id === id) {
+        let newDevice = {
+          ...device,
+          name: "New Name",
+        };
+        return newDevice;
+      }
+      return device;
+    });
+    setDevices(newDevices);
+  };
+
+  let [count, setCount] = useState(0);
+
+  const handleCount = () => {
+    setCount((c) => {
+      return c + 1;
+    });
+
+    setCount((c) => {
+      return c + 1;
+    });
+  };
 
   return (
     <>
-      <h1 style={{ textAlign: "start", color: "green" }}>
-        Components
-        <br />
-        ----------------------
-      </h1>
+      <SectionTitle title="Components" />
       <MyFirstComponent />
-      <h1>Welcome to My App</h1>
       <MyButton />
-      <hr />
 
-      {/* Conditional Rendering */}
-      <h1 style={{ textAlign: "start", color: "green" }}>
-        Conditional Rendering <br />
-        ----------------------
-      </h1>
+      <SectionTitle title="Conditional Rendering" />
       {showArticle && <AppArticle />}
-      {/* or */}
-      {/* showArticle ? <MyButton /> : null */}
-      <hr />
-      {/* Rendering List */}
-      <h1 style={{ textAlign: "start", color: "green" }}>
-        Rendering Lists <br />
-        ----------------------
-      </h1>
-      <div>
-        <ul>
-          {/*tasks.map((task) => (
-            <li>{task}</li>
-          )) */}
-          {/* or */}
-          {myTasksList}
-        </ul>
-      </div>
-      <hr />
-      {/* State */}
-      <h1 style={{ textAlign: "start", color: "green" }}>
-        UseState Hook
-        <br />
-        ----------------------
-      </h1>
+
+      <SectionTitle title="Rendering Lists" />
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>{task.title}</li>
+        ))}
+      </ul>
+
+      <SectionTitle title="useState Hook" />
       <Button />
-      <hr />
-      {/* Managing State With input Fields */}
-      <h1 style={{ textAlign: "start", color: "green" }}>
-        Managing State With input Fields
-        <br />
-        ----------------------
-      </h1>
+
+      <SectionTitle title="Managing State With Input Fields" />
       <MyInput />
-      <hr />
-      {/* Managing State With Forms */}
-      <h1 style={{ textAlign: "start", color: "green" }}>
-        Managing State With Forms
-        <br />
-        ----------------------
-      </h1>
+
+      <SectionTitle title="Managing State With Forms" />
       <MyForm />
-      <hr />
-      {/* Using Arrays as State in Components */}
-      <h1 style={{ textAlign: "start", color: "green" }}>
-        Using Arrays as State in Components
-        <br />
-        ----------------------
-      </h1>
-      <div>
-        <ul>{myDevices}</ul>
-        <div>
-          <br />
-          <input
-            type="text"
-            value={newDeviceName}
-            onChange={(e) => {
-              setNewDeviceName(e.target.value);
-            }}
-          />
-          <button
-            onClick={() => {
-              // const newDevices = [...devices];
-              // newDevices.push(newDeviceName);
-              // setDevices(newDevices);
-              setDevices([...devices, newDeviceName]);
+
+      <SectionTitle title="Using Arrays as State" />
+      <ul>
+        {devices.map((device) => (
+          <li
+            key={device.id}
+            style={{
+              marginBottom: "10px",
+              backgroundColor: "red",
+              color: "white",
             }}
           >
-            Add
-          </button>
-        </div>
-      </div>
+            {device.name}
+            <button
+              style={{ marginLeft: "10px" }}
+              onClick={() => handleDeleteDevice(device.id)}
+            >
+              Delete
+            </button>
+            <button
+              style={{ marginLeft: "10px" }}
+              onClick={() => handleEditClick(device.id)}
+            >
+              Edit
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <input
+        type="text"
+        value={newDevice}
+        onChange={(e) => setNewDevice(e.target.value)}
+        placeholder="Enter device name"
+      />
+
+      <button onClick={handleAddDevice}>Add</button>
+      <hr />
+      <SectionTitle title="Repeating Update For State" />
+
+      <h2>Count is : {count}</h2>
+      <button onClick={handleCount}>Increment</button>
     </>
   );
 }
@@ -146,11 +173,7 @@ function AppArticle() {
   return (
     <>
       {/* passing props */}
-      <h1 style={{ textAlign: "start", color: "green" }}>
-        {" "}
-        Props <br />
-        ----------------------
-      </h1>
+      <SectionTitle title="Props" />
       <Article
         name="Belal"
         email="belal@gmail.com"
