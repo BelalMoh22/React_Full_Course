@@ -5,6 +5,7 @@ import { UserContext } from "./contexts/UserContext";
 function App() {
   return (
     <>
+   {/* Using (useContext) to share data from App to Children */}
       <UserContext.Provider
         value={{
           username: "Belal",

@@ -1,6 +1,8 @@
 /* eslint-disable prefer-const */
 import { createContext } from "react";
 
+/* useContext Hook */
+
 // 1. Create a context
 let loanInputs = {
   label: "",

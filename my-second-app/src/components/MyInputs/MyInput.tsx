@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { LoanInputContext } from "../../contexts/LoanFormInputContext";
-
-// Consumer
+/* 
+useContext Hook : Consumer
+*/
 export default function MyInput() {
   const inputContext = useContext(LoanInputContext);
 

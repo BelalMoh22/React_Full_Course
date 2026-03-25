@@ -70,6 +70,7 @@ function LoanForm({ title }) {
   //title = "Hello World";
   return (
     <div className="flex" onClick={handleDivClick}>
+       {/* Using (useContext) to share data from App to Children */}
       <h1 style={{ color: "red" }}>Hello {userData.username}</h1>
       <form action="" className="loan-form">
         <h1>{title}</h1>
@@ -97,7 +98,7 @@ function LoanForm({ title }) {
           handleChange={handleNameChange}
         /> */}
 
-        {/* {By useContext Hook} */}
+        {/* By useContext Hook : Provider */}
         <LoanInputContext.Provider
           value={{
             label: "Name",
@@ -132,6 +133,7 @@ function LoanForm({ title }) {
           handleChange={handlePhoneNoChange}
         /> */}
 
+        {/* By useContext Hook : Provider */}
         <LoanInputContext.Provider
           value={{
             label: "Phone Number",
@@ -166,6 +168,7 @@ function LoanForm({ title }) {
           handleChange={handleAgeChange}
         /> */}
 
+        {/* By useContext Hook : Provider */}
         <LoanInputContext.Provider
           value={{
             label: "Age",
@@ -200,6 +203,7 @@ function LoanForm({ title }) {
           handleChange={handleEmployeeChange}
         /> */}
 
+        {/* By useContext Hook : Provider */}
         <LoanInputContext.Provider
           value={{
             label: "Are You an Employee?",
