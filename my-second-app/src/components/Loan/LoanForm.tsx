@@ -5,6 +5,7 @@ import MyComponent from "../MyInputs/MyComponent";
 import { LoanInputContext } from "../../contexts/LoanFormInputContext";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import SectionTitle from "../SectionTitle";
 
 function LoanForm({ title }) {
   const inputs = {
@@ -70,8 +71,9 @@ function LoanForm({ title }) {
   //title = "Hello World";
   return (
     <div className="flex" onClick={handleDivClick}>
-       {/* Using (useContext) to share data from App to Children */}
+      {/* Using (useContext) to share data from App to Children */}
       <h1 style={{ color: "red" }}>Hello {userData.username}</h1>
+      <SectionTitle title="useContext Hook " />
       <form action="" className="loan-form">
         <h1>{title}</h1>
         <span className="line"></span>
