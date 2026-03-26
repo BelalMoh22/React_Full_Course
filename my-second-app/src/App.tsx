@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
 import "./App.css";
 import { About } from "./components/About/About";
@@ -11,6 +12,15 @@ import DeletePost from "./components/Posts/DeletePost";
 import CreatePost from "./components/Posts/CreatePost";
 import PostLayout from "./components/Posts/PostLayout";
 import SectionTitle from "./components/SectionTitle";
+// MUI Material UI
+import { Stack } from "@mui/material";
+import { Button } from "@mui/material";
+import LetterAvatars from "./components/MaterialUI/LetterAvatars";
+import Buttons from "./components/MaterialUI/Buttons";
+import { GridSystem } from "./components/MaterialUI/GridSystem";
+import BasicStack from "./components/MaterialUI/BasicStack";
+import ToggleButtons from "./components/MaterialUI/ToggleButtons";
+import { Icon } from "./components/MaterialUI/Icon";
 
 let posts = [
   {
@@ -47,7 +57,7 @@ function App() {
 
       {/* Dynamic Routes */}
       <postsContext.Provider value={posts}>
-        <div>
+        <div style={{ marginBottom: "20px" }}>
           <header>
             <nav>
               <ul>
@@ -95,6 +105,21 @@ function App() {
           </Routes>
         </div>
       </postsContext.Provider>
+      {/* MUI */}
+      <hr />
+      <Buttons />
+      <hr />
+      <LetterAvatars />
+      <hr />
+      <GridSystem />
+      <hr />
+      <hr />
+      <br />
+      <BasicStack />
+      <hr />
+      <ToggleButtons />
+      <hr />
+      <Icon />
     </>
   );
 }
