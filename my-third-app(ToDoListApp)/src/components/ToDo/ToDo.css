@@ -1,7 +1,6 @@
 .toDoCard {
     background-color: #283593 !important;
     color: white !important;
-    min-width: 275px !important;
     transition: all 0.3s ease-in-out !important;
     margin: 25px 0;
 }

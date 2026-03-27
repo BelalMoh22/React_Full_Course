@@ -22,7 +22,7 @@ import "./ToDo.css";
 
 // Context
 import { useContext, useState } from "react";
-import { TodosContext } from "../../contexts/todosContext";
+import { TodosContext } from "../../contexts/TodosContext";
 
 export default function ToDo({ todo }) {
   const [{ todosList, setTodosList }] = useContext(TodosContext);
@@ -41,6 +41,8 @@ export default function ToDo({ todo }) {
       return t;
     });
     setTodosList(newTodosList);
+    // Save to local storage
+    localStorage.setItem("todos", JSON.stringify(newTodosList));
   };
 
   // Delete Dialog
@@ -57,6 +59,8 @@ export default function ToDo({ todo }) {
   const handleDelete = (id) => {
     const newTodosList = todosList.filter((t) => id !== t.id);
     setTodosList(newTodosList);
+    // Save to local storage
+    localStorage.setItem("todos", JSON.stringify(newTodosList));
   };
 
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -87,6 +91,8 @@ export default function ToDo({ todo }) {
     });
     setTodosList(updatedTodos);
     closeEditDialog();
+    // Save to local storage
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   }
 
   return (
@@ -99,6 +105,7 @@ export default function ToDo({ todo }) {
               <Typography // Typography is a text component instead of h1, h2, h3, h4, h5, h6
                 variant="h5"
                 sx={{ textAlign: "right", fontWeight: "500" }}
+                style={{ textDecoration: todo.isCompleted ? "line-through" : "none"}}
               >
                 {todo.title}
               </Typography>

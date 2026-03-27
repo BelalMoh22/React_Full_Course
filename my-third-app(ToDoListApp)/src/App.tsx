@@ -2,7 +2,7 @@ import "./App.css";
 import ToDoList from "./components/ToDoList/ToDoList";
 import { useState } from "react";
 import todos from "./data/todo";
-import { TodosContext } from "./contexts/todosContext";
+import { TodosContext } from "./contexts/TodosContext";
 
 function App() {
   const [todosList, setTodosList] = useState(todos);

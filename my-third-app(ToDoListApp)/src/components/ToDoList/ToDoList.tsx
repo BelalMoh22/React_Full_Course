@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Card,
   CardContent,
@@ -11,22 +12,18 @@ import {
   Button,
 } from "@mui/material";
 import "./ToDoList.css";
-import React, { useState , useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 // Components
 import ToDo from "../ToDo/ToDo";
 
 // other
 import { v4 as uuidv4 } from "uuid";
-import { TodosContext } from "../../contexts/todosContext";
+import { TodosContext } from "../../contexts/TodosContext";
 
 function ToDoList() {
   const [titleInput, setTitleInput] = useState("");
   const [{ todosList, setTodosList }] = useContext(TodosContext);
-
-  const todosJsx = todosList.map((t) => {
-    return <ToDo key={t.id} todo={t} />;
-  });
 
   const handleAddClick = () => {
     const newTodo = {
@@ -35,24 +32,82 @@ function ToDoList() {
       description: `هذا وصف لمهمه ${titleInput}`,
       isCompleted: false,
     };
-    setTodosList([...todosList, newTodo]);
+
+    if (titleInput.trim() === "") {
+      return;
+    }
+
+    const newTodosList = [...todosList, newTodo];
+    setTodosList(newTodosList);
+    // Save to local storage
+    localStorage.setItem("todos", JSON.stringify(newTodosList));
     setTitleInput(""); // to clear the input field
   };
+  // =====================UseEffect Hook===================
 
-  const [alignment, setAlignment] = React.useState("الكل");
+  // useEffect(() => {
+  //   console.log("UseEffect Hook");
+  // }); // this will run once when the component renders and it has two parameters, the first is the function and the second is the array of dependencies where the function will run again
 
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
-  ) => {
-    setAlignment(newAlignment);
+  //   useEffect(() => {
+  //   console.log("UseEffect Hook (title input)");
+  // } , [titleInput]); // this will run when the titleInput changes
+
+  //     useEffect(() => {
+  //   console.log("UseEffect Hook (todosList)");
+  // } , [todosList]); // this will run when the todosList changes
+
+  // useEffect(() => {
+  //   console.log("UseEffect Hook (one time)");
+  // }, []); // this will run once when the component renders
+
+  // =====================UseEffect Hook===================
+
+  // Retrieve data from local storage
+  useEffect(() => {
+    const storedTodos = localStorage.getItem("todos");
+
+    if (storedTodos) {
+      const parsedTodos = JSON.parse(storedTodos);
+      setTodosList(parsedTodos);
+    }
+  }, []);
+
+  // =====================ToggleButtons===================
+  const [displayedTodos, setDisplayedTodos] = React.useState("all");
+
+  const handleChange = (e, value) => {
+    if (value !== null) {
+      setDisplayedTodos(value);
+    }
   };
+
+  // ===================== Update toggle button===================
+  const filteredTodos = todosList.filter((t) => {
+    if (displayedTodos === "completed") return t.isCompleted;
+    if (displayedTodos === "notCompleted") return !t.isCompleted;
+    return true;
+  });
+
+  const todosJsx = filteredTodos.map((t) => {
+    return <ToDo key={t.id} todo={t} />;
+  });
+  // =====================Update toggle button===================
+  // =====================ToggleButtons===================
 
   return (
     <React.Fragment>
       {/* <> is Equal to React.Fragment */}
       <Container maxWidth="sm">
-        <Card sx={{ bgcolor: "#ececec", minWidth: 275, textAlign: "center" }}>
+        <Card
+          sx={{
+            bgcolor: "#ececec",
+            minWidth: 275,
+            textAlign: "center",
+            maxHeight: "80vh",
+            overflow: "auto",
+          }}
+        >
           <CardContent>
             {/* =====Title==== */}
             <Typography // Typography is a text component instead of h1, h2, h3, h4, h5, h6
@@ -68,14 +123,14 @@ function ToDoList() {
             <ToggleButtonGroup
               className="toggleBtn"
               color="primary"
-              value={alignment}
+              value={displayedTodos}
               exclusive
               onChange={handleChange}
               aria-label="Platform"
             >
-              <ToggleButton value="غير منجز">غير منجز</ToggleButton>
-              <ToggleButton value="منجز">منجز</ToggleButton>
-              <ToggleButton value="الكل">الكل</ToggleButton>
+              <ToggleButton value="notCompleted">غير منجز</ToggleButton>
+              <ToggleButton value="completed">منجز</ToggleButton>
+              <ToggleButton value="all">الكل</ToggleButton>
             </ToggleButtonGroup>
             {/* =====ToggleButtons==== */}
 
@@ -98,8 +153,10 @@ function ToDoList() {
               <Grid size={4}>
                 <Button
                   variant="contained"
+                  color="primary"
                   className="addBtn"
                   onClick={handleAddClick}
+                  disabled={titleInput.trim() === "" ? true : false}
                 >
                   اضافه
                 </Button>
