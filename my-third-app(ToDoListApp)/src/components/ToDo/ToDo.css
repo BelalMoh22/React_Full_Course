@@ -3,7 +3,7 @@
     color: white !important;
     min-width: 275px !important;
     transition: all 0.3s ease-in-out !important;
-    margin-bottom: 25px;
+    margin: 25px 0;
 }
 
 .toDoCard:hover {
@@ -16,7 +16,6 @@
 .checkBtn,
 .editBtn,
 .deleteBtn {
-    background-color: white !important;
     border-radius: 50%;
     transition: all 0.3s ease-in-out;
 }
@@ -29,16 +28,17 @@
 }
 
 .checkBtn {
-    color: #8bc34a !important;
     border: solid #8bc34a 3px !important;
 }
 
 .editBtn {
+    background-color: white !important;
     color: #1769aa !important;
     border: solid #1769aa 3px !important;
 }
 
 .deleteBtn {
+    background-color: white !important;
     color: red !important;
     border: solid red 3px !important;
 }

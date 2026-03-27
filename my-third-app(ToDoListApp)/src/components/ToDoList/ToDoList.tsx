@@ -11,25 +11,33 @@ import {
   Button,
 } from "@mui/material";
 import "./ToDoList.css";
-import React from "react";
+import React, { useState , useContext } from "react";
 
 // Components
 import ToDo from "../ToDo/ToDo";
 
-// toDo's
-import todos from "../../data/todo";
+// other
+import { v4 as uuidv4 } from "uuid";
+import { TodosContext } from "../../contexts/todosContext";
 
 function ToDoList() {
-  const todosJsx = todos.map((todo) => {
-    return (
-      <ToDo
-        key={todo.id}
-        title={todo.title}
-        description={todo.description}
-        isCompleted={todo.isCompleted ?? false}
-      />
-    );
+  const [titleInput, setTitleInput] = useState("");
+  const [{ todosList, setTodosList }] = useContext(TodosContext);
+
+  const todosJsx = todosList.map((t) => {
+    return <ToDo key={t.id} todo={t} />;
   });
+
+  const handleAddClick = () => {
+    const newTodo = {
+      id: uuidv4(),
+      title: titleInput,
+      description: `هذا وصف لمهمه ${titleInput}`,
+      isCompleted: false,
+    };
+    setTodosList([...todosList, newTodo]);
+    setTitleInput(""); // to clear the input field
+  };
 
   const [alignment, setAlignment] = React.useState("الكل");
 
@@ -83,10 +91,16 @@ function ToDoList() {
                   id="outlined-basic"
                   label="اضافه مهمه"
                   variant="outlined"
+                  value={titleInput}
+                  onChange={(e) => setTitleInput(e.target.value)}
                 />
               </Grid>
               <Grid size={4}>
-                <Button variant="contained" className="addBtn">
+                <Button
+                  variant="contained"
+                  className="addBtn"
+                  onClick={handleAddClick}
+                >
                   اضافه
                 </Button>
               </Grid>

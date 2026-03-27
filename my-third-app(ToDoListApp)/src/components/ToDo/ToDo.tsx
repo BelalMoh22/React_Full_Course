@@ -1,18 +1,94 @@
+/* eslint-disable react-hooks/immutability */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
+  Button,
   Card,
   CardContent,
-  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
-  IconButton,
   Grid,
+  IconButton,
+  TextField,
+  Typography,
 } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import "./ToDo.css";
 
-export default function ToDo({ title, description, isCompleted }) {
+// Context
+import { useContext, useState } from "react";
+import { TodosContext } from "../../contexts/todosContext";
+
+export default function ToDo({ todo }) {
+  const [{ todosList, setTodosList }] = useContext(TodosContext);
+
+  const handleCheckClick = () => {
+    const newTodosList = todosList.map((t) => {
+      if (t.id === todo.id) {
+        // if (t.isCompleted === false) {
+        //   t.isCompleted = true;
+        // } else {
+        //   t.isCompleted = false;
+        // }
+        // or
+        t.isCompleted = !t.isCompleted;
+      }
+      return t;
+    });
+    setTodosList(newTodosList);
+  };
+
+  // Delete Dialog
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  const handleOpenDeleteDialog = () => {
+    setShowDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setShowDeleteDialog(false);
+  };
+
+  const handleDelete = (id) => {
+    const newTodosList = todosList.filter((t) => id !== t.id);
+    setTodosList(newTodosList);
+  };
+
+  const [showEditDialog, setShowEditDialog] = useState(false);
+
+  const openEditDialog = () => {
+    setShowEditDialog(true);
+  };
+
+  const closeEditDialog = () => {
+    setShowEditDialog(false);
+  };
+
+  const [editedTodo, setEditedTodo] = useState({
+    title: todo.title,
+    description: todo.description,
+  });
+
+  function handleEdit(id) {
+    const updatedTodos = todosList.map((t) => {
+      if (t.id === id) {
+        return {
+          ...t,
+          title: editedTodo.title,
+          description: editedTodo.description,
+        };
+      }
+      return t;
+    });
+    setTodosList(updatedTodos);
+    closeEditDialog();
+  }
+
   return (
     <>
       <Card className="toDoCard">
@@ -24,14 +100,14 @@ export default function ToDo({ title, description, isCompleted }) {
                 variant="h5"
                 sx={{ textAlign: "right", fontWeight: "500" }}
               >
-                {title}
+                {todo.title}
               </Typography>
               <Divider />
               <Typography // Typography is a text component instead of h1, h2, h3, h4, h5, h6
                 variant="h6"
                 sx={{ textAlign: "right", fontWeight: "300" }}
               >
-                {description}
+                {todo.description}
               </Typography>
             </Grid>
             {/* =====Title==== */}
@@ -43,17 +119,120 @@ export default function ToDo({ title, description, isCompleted }) {
               justifyContent="space-around"
               alignItems="center"
             >
-              <IconButton aria-label="check" className="checkBtn">
+              {/* =====Check Icon Button==== */}
+              <IconButton
+                aria-label="check"
+                className="checkBtn"
+                onClick={handleCheckClick}
+                style={{
+                  backgroundColor: todo.isCompleted ? "#8bc34a" : "white",
+                  color: todo.isCompleted ? "white" : "#8bc34a",
+                }}
+              >
                 <CheckIcon />
               </IconButton>
+              {/* =====Check Icon Button==== */}
 
-              <IconButton aria-label="check" className="editBtn">
+              {/* ============ Edit Icon Button=========== */}
+              <IconButton
+                aria-label="check"
+                className="editBtn"
+                onClick={openEditDialog}
+              >
                 <EditIcon />
               </IconButton>
+              {/* =========== Edit Icon Button=========== */}
 
-              <IconButton aria-label="check" className="deleteBtn">
+              {/* ============= Edit Dialog=========== */}
+              <Dialog open={showEditDialog} onClose={closeEditDialog}>
+                <DialogTitle>Subscribe</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>تعديل المهمه</DialogContentText>
+                  <form
+                    id="edit-form"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <TextField
+                      autoFocus
+                      required
+                      label="تعديل عنوان المهمه"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      value={editedTodo.title}
+                      onChange={(e) => {
+                        setEditedTodo({
+                          ...editedTodo,
+                          title: e.target.value,
+                        });
+                      }}
+                    />
+
+                    <TextField
+                      label="تعديل تفاصيل المهمه"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      value={editedTodo.description}
+                      onChange={(e) => {
+                        setEditedTodo({
+                          ...editedTodo,
+                          description: e.target.value,
+                        });
+                      }}
+                    />
+                  </form>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={closeEditDialog}>اغلاق</Button>
+                  <Button
+                    type="submit"
+                    form="edit-form"
+                    onClick={() => {
+                      handleEdit(todo.id);
+                    }}
+                  >
+                    حفظ التعديلات
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              {/* =================Edit Dialog===================== */}
+
+              {/* =====Delete Icon Button==== */}
+              <IconButton
+                aria-label="check"
+                className="deleteBtn"
+                onClick={handleOpenDeleteDialog}
+              >
                 <DeleteIcon />
               </IconButton>
+              {/* =====Delete Icon Button==== */}
+
+              {/*============= Delete Dialog=========== */}
+              <Dialog
+                open={showDeleteDialog}
+                onClose={handleCloseDeleteDialog} // here Closing Dialog when click on anyWhere of the page
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {"هل انت متاكد من الحذف ؟"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    لا يمكن التراجع عن الحذف بعد اتمامه
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseDeleteDialog}>اغلاق</Button>
+                  <Button onClick={() => handleDelete(todo.id)} autoFocus>
+                    نعم قم بالحذف
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              {/*============= Delete Dialog=========== */}
             </Grid>
             {/* =====Buttons==== */}
           </Grid>
