@@ -1,0 +1,44 @@
+.toDoCard {
+    background-color: #283593 !important;
+    color: white !important;
+    min-width: 275px !important;
+    transition: all 0.3s ease-in-out !important;
+    margin-bottom: 25px;
+}
+
+.toDoCard:hover {
+    /* transform: scale(1.01); */
+    /* or */
+    padding: 10px 0;
+    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);
+}
+
+.checkBtn,
+.editBtn,
+.deleteBtn {
+    background-color: white !important;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+}
+
+.checkBtn:hover,
+.editBtn:hover,
+.deleteBtn:hover {
+    background-color: #c5c5c5 !important;
+    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);
+}
+
+.checkBtn {
+    color: #8bc34a !important;
+    border: solid #8bc34a 3px !important;
+}
+
+.editBtn {
+    color: #1769aa !important;
+    border: solid #1769aa 3px !important;
+}
+
+.deleteBtn {
+    color: red !important;
+    border: solid red 3px !important;
+}

@@ -1,0 +1,21 @@
+.toggleBtn {
+    direction: ltr;
+    margin: 25px 0;
+}
+
+.txt-field {
+    width: 100% !important;
+}
+
+.addBtn {
+    width: 100% !important;
+    height: 100% !important;
+    background-color: #283593 !important;
+    color: white !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.addBtn:hover {
+    background-color: #3142bc !important;
+    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);
+}
