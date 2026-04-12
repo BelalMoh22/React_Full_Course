@@ -70,6 +70,9 @@ function App() {
     // setDevices(newDevices);
     // or
 
+    // const newDevices = devices.filter((device) => device.id !== id);
+    // setDevices(newDevices);
+    // or
     setDevices((oldDevices) => oldDevices.filter((device) => device.id !== id));
   };
 
@@ -90,9 +93,11 @@ function App() {
   let [count, setCount] = useState(0);
 
   const handleCount = () => {
-    setCount((c) => {
-      return c + 1;
-    });
+    // setCount((c) => {
+    //   return c + 1;
+    // });
+
+    setCount(count + 1);
 
     setCount((c) => {
       return c + 1;

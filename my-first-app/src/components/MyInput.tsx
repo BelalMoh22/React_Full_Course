@@ -1,4 +1,4 @@
-import { useState, type SetStateAction } from "react";
+import { useState } from "react";
 
 {
   /* Managing State With input Fields */
@@ -6,9 +6,7 @@ import { useState, type SetStateAction } from "react";
 
 function MyInput() {
   const [name, setName] = useState("");
-  function handleInputChange(event: {
-    target: { value: SetStateAction<string> };
-  }) {
+  function handleInputChange(event) {
     // alert("Hello");
     //console.log(event);
     setName(event.target.value);
