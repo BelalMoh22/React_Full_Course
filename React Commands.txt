@@ -1,0 +1,18 @@
+Create a Vite App : npm create vite@latest nameOfApp
+
+Enter the app : cd nameOfApp
+
+Install node_modules : npm install
+
+Install React Router : npm install react-router-dom
+
+Install axios : npm install axios
+
+Install React Icons : npm install react-icons
+
+Install React clsx : npm install clsx
+
+Install Material Ui and It's Icons : npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
+
+
+Run App : npm run dev
