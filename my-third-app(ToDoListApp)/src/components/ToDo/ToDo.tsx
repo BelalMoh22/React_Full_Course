@@ -14,15 +14,20 @@ import "./ToDo.css";
 // Context
 import { useContext } from "react";
 import { TodosContext } from "../../contexts/TodosContext";
-import { useSnackbar } from "notistack";
-import { showSnackbar } from "../../utils/snackbar";
+import { ToastContext } from "../../contexts/ToastContext";
+// import { useSnackbar } from "notistack";
+// import { showSnackbar } from "../../utils/snackbar";
 
 export default function ToDo({ todo, openDeleteDialog, openUpdateDialog }) {
   //=========================snackbar======================
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   // ====================snackbar==========================
 
   const [{ todosList, setTodosList }] = useContext(TodosContext);
+
+  // =====================toast========================
+  const toast = useContext(ToastContext);
+  // =====================toast========================
 
   const handleCheckClick = () => {
     const newTodosList = todosList.map((t) => {
@@ -40,12 +45,16 @@ export default function ToDo({ todo, openDeleteDialog, openUpdateDialog }) {
     setTodosList(newTodosList);
     localStorage.setItem("todos", JSON.stringify(newTodosList));
 
-    showSnackbar(
-      enqueueSnackbar,
-      closeSnackbar,
+    toast.showHideToast(
       todo.isCompleted ? "عدم انهاء المهمه" : "تم انهاء المهمه",
-      "success",
     );
+
+    //   showSnackbar(
+    //     enqueueSnackbar,
+    //     closeSnackbar,
+    //     todo.isCompleted ? "عدم انهاء المهمه" : "تم انهاء المهمه",
+    //     "success",
+    //   );
   };
   //======================================================
   // Edit Dialog

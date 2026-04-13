@@ -24,15 +24,20 @@ import ToDo from "../ToDo/ToDo";
 // other
 import { v4 as uuidv4 } from "uuid";
 import { TodosContext } from "../../contexts/TodosContext";
-import { useSnackbar } from "notistack";
-import { showSnackbar } from "../../utils/snackbar";
+import { ToastContext } from "../../contexts/ToastContext";
+// import { useSnackbar } from "notistack";
+// import { showSnackbar } from "../../utils/snackbar";
 
 function ToDoList() {
   // ======================snackbar========================
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   //=====================snackbar========================
   const [titleInput, setTitleInput] = useState("");
   const [{ todosList, setTodosList }] = useContext(TodosContext);
+
+  // =================== Toast =====================
+  const toast = useContext(ToastContext);
+  // ================== Toast=====================
 
   const handleAddClick = () => {
     const newTodo = {
@@ -51,13 +56,14 @@ function ToDoList() {
     // Save to local storage
     localStorage.setItem("todos", JSON.stringify(newTodosList));
     setTitleInput(""); // to clear the input field
+    toast.showHideToast("تم اضافه المهمه بنجاح");
 
-    showSnackbar(
-      enqueueSnackbar,
-      closeSnackbar,
-      "تم اضافه المهمه بنجاح",
-      "success",
-    );
+    // showSnackbar(
+    //   enqueueSnackbar,
+    //   closeSnackbar,
+    //   "تم اضافه المهمه بنجاح",
+    //   "success",
+    // );
   };
   // =====================UseEffect Hook===================
 
@@ -142,7 +148,9 @@ function ToDoList() {
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
     closeEditDialog();
 
-    showSnackbar(enqueueSnackbar, closeSnackbar, "تم تعديل المهمه", "info");
+    toast.showHideToast("تم تعديل المهمه");
+
+    // showSnackbar(enqueueSnackbar, closeSnackbar, "تم تعديل المهمه", "info");
   }
   // ===================== Edit Dialog====================
 
@@ -165,7 +173,9 @@ function ToDoList() {
     localStorage.setItem("todos", JSON.stringify(newTodosList));
     handleCloseDeleteDialog();
 
-    showSnackbar(enqueueSnackbar, closeSnackbar, "تم الحذف", "error");
+    toast.showHideToast("تم حذف المهمه بنجاح");
+
+    //showSnackbar(enqueueSnackbar, closeSnackbar, "تم الحذف", "error");
   };
   // =====================Delete Dialog====================
 
