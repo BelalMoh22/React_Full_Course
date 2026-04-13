@@ -52,6 +52,7 @@
     src: url("./assets/fonts/Alexandria-Black.ttf") format("truetype");
     font-weight: 900;
 }
+
 /* ==============Custom Fonts================= */
 
 * {
@@ -60,10 +61,5 @@
     box-sizing: border-box;
     direction: rtl;
     /* for arabic right to left  */
-    font-family: "Alexandria", sans-serif;
-}
-
-body {
-    margin: 0;
     font-family: "Alexandria", sans-serif;
 }
