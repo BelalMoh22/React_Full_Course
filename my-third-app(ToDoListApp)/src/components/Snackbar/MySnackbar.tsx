@@ -1,6 +1,8 @@
 import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
 import MuiAlert, { type AlertProps } from "@mui/material/Alert";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   function Alert(props, ref) {
@@ -8,18 +10,24 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   },
 );
 
-export default function MySnackbar({ open, message }) {
-  // const handleClose = (
-  //   event?: React.SyntheticEvent | Event,
-  //   reason?: string,
-  // ) => {
-  //   if (reason === "clickaway") return;
-  //   setOpen(false);
-  // };
-
+export default function MySnackbar({ open, message, handleClose }) {
   return (
-    <Snackbar open={open}>
-      <Alert severity="success">{message}</Alert>
+    <Snackbar open={open} onClose={handleClose}>
+      <Alert
+        severity="success"
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            size="small"
+            onClick={handleClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      >
+        {message}
+      </Alert>
     </Snackbar>
   );
 }

@@ -24,7 +24,7 @@ import ToDo from "../ToDo/ToDo";
 // other
 import { v4 as uuidv4 } from "uuid";
 import { TodosContext } from "../../contexts/TodosContext";
-import { ToastContext } from "../../contexts/ToastContext";
+import { useToast } from "../../Hooks/useToast";
 // import { useSnackbar } from "notistack";
 // import { showSnackbar } from "../../utils/snackbar";
 
@@ -36,7 +36,7 @@ function ToDoList() {
   const [{ todosList, setTodosList }] = useContext(TodosContext);
 
   // =================== Toast =====================
-  const toast = useContext(ToastContext);
+  const toast = useToast();
   // ================== Toast=====================
 
   const handleAddClick = () => {
@@ -93,12 +93,12 @@ function ToDoList() {
       const parsedTodos = JSON.parse(storedTodos);
       setTodosList(parsedTodos);
     }
-  }, []);
+  }, []); // this will run once when the component renders
 
   // =====================ToggleButtons===================
   const [displayedTodos, setDisplayedTodos] = React.useState("all");
 
-  const handleChange = (e, value) => {
+  const handleChange = (_e, value) => {
     if (value !== null) {
       setDisplayedTodos(value);
     }

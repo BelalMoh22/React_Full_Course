@@ -1,3 +1,9 @@
 import { createContext } from "react";
 
-export const ToastContext = createContext({});
+type ToastContextType = {
+  showHideToast: (message: string) => void;
+};
+
+export const ToastContext = createContext<ToastContextType>({
+  showHideToast: () => {},
+});

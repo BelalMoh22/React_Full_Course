@@ -12,9 +12,9 @@ import {
 import "./ToDo.css";
 
 // Context
-import { useContext } from "react";
 import { TodosContext } from "../../contexts/TodosContext";
-import { ToastContext } from "../../contexts/ToastContext";
+import { useContext } from "react";
+import { useToast } from "../../Hooks/useToast";
 // import { useSnackbar } from "notistack";
 // import { showSnackbar } from "../../utils/snackbar";
 
@@ -26,7 +26,7 @@ export default function ToDo({ todo, openDeleteDialog, openUpdateDialog }) {
   const [{ todosList, setTodosList }] = useContext(TodosContext);
 
   // =====================toast========================
-  const toast = useContext(ToastContext);
+  const toast = useToast();
   // =====================toast========================
 
   const handleCheckClick = () => {
