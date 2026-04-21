@@ -13,11 +13,14 @@ import "./ToDo.css";
 
 // Context
 //import { TodosContext } from "../../contexts/TodosContext";
-import { useReducer } from "react";
+//import { useReducer } from "react";
 import { useToast } from "../../Hooks/useToast";
-import todosReducer from "../../Reducers/todosReducer";
+//import { useContext } from "react";
+//import todosReducer from "../../Reducers/todosReducer";
 // import { useSnackbar } from "notistack";
 // import { showSnackbar } from "../../utils/snackbar";
+//import useTodos from "../../Hooks/useTodos";
+import useDispatch from "../../Hooks/useDispatch";
 
 export default function ToDo({ todo, openDeleteDialog, openUpdateDialog }) {
   //=========================snackbar======================
@@ -29,7 +32,9 @@ export default function ToDo({ todo, openDeleteDialog, openUpdateDialog }) {
   // ===================== without UseReducer Hook===================
 
   // ===================== with UseReducer Hook===================
-  const [todosState, dispatch] = useReducer(todosReducer, []);
+  //const { dispatch } = useContext(TodosContext);
+  //const { dispatch } = useTodos();
+  const dispatch = useDispatch();
   // ====================== with UseReducer Hook===================
 
   // =====================toast========================

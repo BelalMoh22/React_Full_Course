@@ -1,14 +1,15 @@
 import "./App.css";
 import ToDoList from "./components/ToDoList/ToDoList";
 import { useState, useReducer } from "react";
-import todos from "./data/todo";
-import { TodosContext } from "./contexts/TodosContext";
+//import todos from "./data/todo";
+//import { TodosContext } from "./contexts/TodosContext";
+import  TodosProvider  from "./Providers/TodosProvider";
 import { ToastProvider } from "./Providers/ToastProvider";
 import { resultReducer } from "./Reducers/resultReducer";
 //import { SnackbarProvider } from "notistack";
 
 function App() {
-  const [todosList, setTodosList] = useState(todos);
+  //const [todosList, setTodosList] = useState(todos);
 
   // with UseReducer
   const [newResult, dispatch] = useReducer(resultReducer, 0); // two parameters where the first one is the reducer function that use to handle the actions of the state  and the second one is the initial state
@@ -66,9 +67,9 @@ function App() {
       <div className="App">
         <ToastProvider>
           {/* <SnackbarProvider maxSnack={3}> */}
-          <TodosContext.Provider value={[{ todosList, setTodosList }]}>
+          <TodosProvider>
             <ToDoList />
-          </TodosContext.Provider>
+          </TodosProvider>
           {/* </SnackbarProvider> */}
         </ToastProvider>
       </div>

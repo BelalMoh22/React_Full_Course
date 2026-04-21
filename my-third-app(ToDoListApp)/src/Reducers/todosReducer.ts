@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { v4 as uuidv4 } from "uuid";
 
 export default function todosReducer(currentTodos, action) {
@@ -16,7 +17,7 @@ export default function todosReducer(currentTodos, action) {
       };
 
       if (action.payload.title.trim() === "") {
-        return;
+        return currentTodos;
       }
 
       const newTodosList = [...currentTodos, newTodo];

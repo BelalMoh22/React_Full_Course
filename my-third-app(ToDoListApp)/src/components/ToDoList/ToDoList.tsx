@@ -21,7 +21,7 @@ import React, {
   //useContext,
   useEffect,
   useMemo,
-  useReducer,
+  //useReducer,
 } from "react";
 
 // Components
@@ -31,11 +31,13 @@ import ToDo from "../ToDo/ToDo";
 // import { v4 as uuidv4 } from "uuid";
 //import { TodosContext } from "../../contexts/TodosContext";
 import { useToast } from "../../Hooks/useToast";
+import useTodos from "../../Hooks/useTodos";
+import useDispatch from "../../Hooks/useDispatch";
 // import { useSnackbar } from "notistack";
 // import { showSnackbar } from "../../utils/snackbar";
 
 // useReducer
-import todosReducer from "../../Reducers/todosReducer";
+//import todosReducer from "../../Reducers/todosReducer";
 //import todos from "../../data/todo";
 
 function ToDoList() {
@@ -54,9 +56,11 @@ function ToDoList() {
   const [titleInput, setTitleInput] = useState("");
 
   // ===================== UseReducer Hook===================
-  const [todosState, dispatch] = useReducer(todosReducer, []);
+  //const [todosState, dispatch] = useReducer(todosReducer, []);
+  //const { todosState, dispatch } = useContext(TodosContext);
+  const todosState = useTodos();
+  const dispatch = useDispatch();
   // ===================== UseReducer Hook===================
-
   const handleAddClick = () => {
     // ============== without UseReducer Hook===================
     // const newTodo = {
