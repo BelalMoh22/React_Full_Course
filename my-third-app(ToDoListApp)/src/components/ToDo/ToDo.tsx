@@ -12,9 +12,10 @@ import {
 import "./ToDo.css";
 
 // Context
-import { TodosContext } from "../../contexts/TodosContext";
-import { useContext } from "react";
+//import { TodosContext } from "../../contexts/TodosContext";
+import { useReducer } from "react";
 import { useToast } from "../../Hooks/useToast";
+import todosReducer from "../../Reducers/todosReducer";
 // import { useSnackbar } from "notistack";
 // import { showSnackbar } from "../../utils/snackbar";
 
@@ -23,28 +24,42 @@ export default function ToDo({ todo, openDeleteDialog, openUpdateDialog }) {
   // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   // ====================snackbar==========================
 
-  const [{ todosList, setTodosList }] = useContext(TodosContext);
+  // ===================== without UseReducer Hook===================
+  // const [{ todosList, setTodosList }] = useContext(TodosContext);
+  // ===================== without UseReducer Hook===================
+
+  // ===================== with UseReducer Hook===================
+  const [todosState, dispatch] = useReducer(todosReducer, []);
+  // ====================== with UseReducer Hook===================
 
   // =====================toast========================
   const toast = useToast();
   // =====================toast========================
 
   const handleCheckClick = () => {
-    const newTodosList = todosList.map((t) => {
-      if (t.id === todo.id) {
-        // if (t.isCompleted === false) {
-        //   t.isCompleted = true;
-        // } else {
-        //   t.isCompleted = false;
-        // }
-        // or
-        return { ...t, isCompleted: !t.isCompleted };
-      }
-      return t;
-    });
-    setTodosList(newTodosList);
-    localStorage.setItem("todos", JSON.stringify(newTodosList));
+    // ================= without UseReducer Hook===================
+    // const newTodosList = todosList.map((t) => {
+    //   if (t.id === todo.id) {
+    //     // if (t.isCompleted === false) {
+    //     //   t.isCompleted = true;
+    //     // } else {
+    //     //   t.isCompleted = false;
+    //     // }
+    //     // or
+    //     return { ...t, isCompleted: !t.isCompleted };
+    //   }
+    //   return t;
+    // });
+    // setTodosList(newTodosList);
+    // localStorage.setItem("todos", JSON.stringify(newTodosList));
+    // ================= without UseReducer Hook===================
 
+    // ================= with UseReducer Hook===================
+    dispatch({
+      type: "complete", // type : the type of the action
+      payload: todo, // payload : additional data that we want to send with the action
+    });
+    // ================= with UseReducer Hook===================
     toast.showHideToast(
       todo.isCompleted ? "عدم انهاء المهمه" : "تم انهاء المهمه",
     );

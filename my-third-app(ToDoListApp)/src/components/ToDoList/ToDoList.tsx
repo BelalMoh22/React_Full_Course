@@ -16,48 +16,75 @@ import {
   DialogTitle,
 } from "@mui/material";
 import "./ToDoList.css";
-import React, { useState, useContext, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  //useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+} from "react";
 
 // Components
 import ToDo from "../ToDo/ToDo";
 
 // other
-import { v4 as uuidv4 } from "uuid";
-import { TodosContext } from "../../contexts/TodosContext";
+// import { v4 as uuidv4 } from "uuid";
+//import { TodosContext } from "../../contexts/TodosContext";
 import { useToast } from "../../Hooks/useToast";
 // import { useSnackbar } from "notistack";
 // import { showSnackbar } from "../../utils/snackbar";
+
+// useReducer
+import todosReducer from "../../Reducers/todosReducer";
+//import todos from "../../data/todo";
 
 function ToDoList() {
   // ======================snackbar========================
   // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   //=====================snackbar========================
-  const [titleInput, setTitleInput] = useState("");
-  const [{ todosList, setTodosList }] = useContext(TodosContext);
+
+  // =================== without UseReducer Hook===================
+  //const [{ todosList, setTodosList }] = useContext(TodosContext);
+  // =================== without UseReducer Hook===================
 
   // =================== Toast =====================
   const toast = useToast();
   // ================== Toast=====================
 
+  const [titleInput, setTitleInput] = useState("");
+
+  // ===================== UseReducer Hook===================
+  const [todosState, dispatch] = useReducer(todosReducer, []);
+  // ===================== UseReducer Hook===================
+
   const handleAddClick = () => {
-    const newTodo = {
-      id: uuidv4(),
-      title: titleInput,
-      description: `هذا وصف لمهمه ${titleInput}`,
-      isCompleted: false,
-    };
+    // ============== without UseReducer Hook===================
+    // const newTodo = {
+    //   id: uuidv4(),
+    //   title: titleInput,
+    //   description: `هذا وصف لمهمه ${titleInput}`,
+    //   isCompleted: false,
+    // };
 
-    if (titleInput.trim() === "") {
-      return;
-    }
+    // if (titleInput.trim() === "") {
+    //   return;
+    // }
 
-    const newTodosList = [...todosList, newTodo];
-    setTodosList(newTodosList);
-    // Save to local storage
-    localStorage.setItem("todos", JSON.stringify(newTodosList));
+    // const newTodosList = [...todosList, newTodo];
+    // setTodosList(newTodosList);
+    // // Save to local storage
+    // localStorage.setItem("todos", JSON.stringify(newTodosList));
+    // ================= without UseReducer Hook===================
+
+    // =============== with UseReducer Hook===================
+    dispatch({
+      type: "add", // type : the type of the action
+      payload: { title: titleInput }, // payload : additional data that we want to send with the action
+    });
+    // =============== with UseReducer Hook===================
+
     setTitleInput(""); // to clear the input field
     toast.showHideToast("تم اضافه المهمه بنجاح");
-
     // showSnackbar(
     //   enqueueSnackbar,
     //   closeSnackbar,
@@ -87,16 +114,24 @@ function ToDoList() {
 
   // Retrieve data from local storage
   useEffect(() => {
-    const storedTodos = localStorage.getItem("todos");
+    // ===================== without UseReducer Hook===================
+    // const storedTodos = localStorage.getItem("todos");
 
-    if (storedTodos) {
-      const parsedTodos = JSON.parse(storedTodos);
-      setTodosList(parsedTodos);
-    }
+    // if (storedTodos) {
+    //   const parsedTodos = JSON.parse(storedTodos);
+    //   setTodosList(parsedTodos);
+    // }
+    // ===================== without UseReducer Hook===================
+
+    // ===================== with UseReducer Hook===================
+    dispatch({
+      type: "init",
+    });
+    // ===================== with UseReducer Hook===================
   }, []); // this will run once when the component renders
 
   // =====================ToggleButtons===================
-  const [displayedTodos, setDisplayedTodos] = React.useState("all");
+  const [displayedTodos, setDisplayedTodos] = useState("all");
 
   const handleChange = (_e, value) => {
     if (value !== null) {
@@ -107,13 +142,13 @@ function ToDoList() {
   // ===================== Update toggle button===================
   // useMemo is a React Hook that lets you memoize the result of a function.
   const filteredTodos = useMemo(() => {
-    return todosList.filter((t) => {
+    return todosState.filter((t) => {
       console.log("useMemo called");
       if (displayedTodos === "completed") return t.isCompleted;
       if (displayedTodos === "notCompleted") return !t.isCompleted;
       return true;
     });
-  }, [todosList, displayedTodos]); // here the useMemo will run again when the todosList or displayedTodos changes
+  }, [todosState, displayedTodos]); // here the useMemo will run again when the todosList or displayedTodos changes
   // =====================Update toggle button===================
   // =====================ToggleButtons===================
 
@@ -133,21 +168,33 @@ function ToDoList() {
   };
 
   function handleEdit() {
-    const updatedTodos = todosList.map((t) => {
-      if (t.id === todoDialog.id) {
-        return {
-          ...t,
-          title: todoDialog.title,
-          description: todoDialog.description,
-        };
-      }
-      return t;
-    });
-    setTodosList(updatedTodos);
-    // Save to local storage
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
-    closeEditDialog();
+    // ============= without UseReducer Hook===================
+    // const updatedTodos = todosState.map((t) => {
+    //   if (t.id === todoDialog.id) {
+    //     return {
+    //       ...t,
+    //       title: todoDialog.title,
+    //       description: todoDialog.description,
+    //     };
+    //   }
+    //   return t;
+    // });
+    // //setTodosList(updatedTodos);
+    // // Save to local storage
+    // localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    // ================= without UseReducer Hook===================
 
+    // ============== with UseReducer Hook===================
+    dispatch({
+      type: "edit",
+      payload: {
+        id: todoDialog.id,
+        title: todoDialog.title,
+        description: todoDialog.description,
+      },
+    });
+    // ================= with UseReducer Hook===================
+    closeEditDialog();
     toast.showHideToast("تم تعديل المهمه");
 
     // showSnackbar(enqueueSnackbar, closeSnackbar, "تم تعديل المهمه", "info");
@@ -167,12 +214,20 @@ function ToDoList() {
   };
 
   const handleDelete = () => {
-    const newTodosList = todosList.filter((t) => todoDialog.id !== t.id);
-    setTodosList(newTodosList);
-    // Save to local storage
-    localStorage.setItem("todos", JSON.stringify(newTodosList));
-    handleCloseDeleteDialog();
+    // =========== without UseReducer Hook===================
+    // const newTodosList = todosState.filter((t) => todoDialog.id !== t.id);
+    // //setTodosList(newTodosList);
+    // // Save to local storage
+    // localStorage.setItem("todos", JSON.stringify(newTodosList));
+    // ================== without UseReducer Hook===================
 
+    // =============== with UseReducer Hook===================
+    dispatch({
+      type: "delete",
+      payload: todoDialog,
+    });
+    // ================ with UseReducer Hook===================
+    handleCloseDeleteDialog();
     toast.showHideToast("تم حذف المهمه بنجاح");
 
     //showSnackbar(enqueueSnackbar, closeSnackbar, "تم الحذف", "error");
