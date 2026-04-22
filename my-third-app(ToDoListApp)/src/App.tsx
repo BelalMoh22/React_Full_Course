@@ -4,9 +4,9 @@ import { useState, useReducer } from "react";
 //import todos from "./data/todo";
 //import { TodosContext } from "./contexts/TodosContext";
 import  TodosProvider  from "./Providers/TodosProvider";
-import { ToastProvider } from "./Providers/ToastProvider";
+//import { ToastProvider } from "./Providers/ToastProvider";
 import { resultReducer } from "./Reducers/resultReducer";
-//import { SnackbarProvider } from "notistack";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   //const [todosList, setTodosList] = useState(todos);
@@ -65,13 +65,13 @@ function App() {
   return (
     <>
       <div className="App">
-        <ToastProvider>
-          {/* <SnackbarProvider maxSnack={3}> */}
+        {/* <ToastProvider> provider */}
+          <SnackbarProvider maxSnack={3}>
           <TodosProvider>
             <ToDoList />
           </TodosProvider>
-          {/* </SnackbarProvider> */}
-        </ToastProvider>
+          </SnackbarProvider>
+        {/* </ToastProvider> */}
       </div>
       <hr /> <br />
       <div
@@ -111,3 +111,6 @@ function App() {
 }
 
 export default App;
+
+// export default : you can import it with any name
+// export : you must import it with the same name

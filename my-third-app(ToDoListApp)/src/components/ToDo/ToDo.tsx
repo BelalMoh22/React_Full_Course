@@ -14,17 +14,17 @@ import "./ToDo.css";
 // Context
 //import { TodosContext } from "../../contexts/TodosContext";
 //import { useReducer } from "react";
-import { useToast } from "../../Hooks/useToast";
+//import { useToast } from "../../Hooks/useToast";
 //import { useContext } from "react";
 //import todosReducer from "../../Reducers/todosReducer";
-// import { useSnackbar } from "notistack";
-// import { showSnackbar } from "../../utils/snackbar";
+import { useSnackbar } from "notistack";
+import { showSnackbar } from "../../utils/snackbar";
 //import useTodos from "../../Hooks/useTodos";
 import useDispatch from "../../Hooks/useDispatch";
 
 export default function ToDo({ todo, openDeleteDialog, openUpdateDialog }) {
   //=========================snackbar======================
-  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   // ====================snackbar==========================
 
   // ===================== without UseReducer Hook===================
@@ -38,7 +38,7 @@ export default function ToDo({ todo, openDeleteDialog, openUpdateDialog }) {
   // ====================== with UseReducer Hook===================
 
   // =====================toast========================
-  const toast = useToast();
+  //const toast = useToast();
   // =====================toast========================
 
   const handleCheckClick = () => {
@@ -65,16 +65,16 @@ export default function ToDo({ todo, openDeleteDialog, openUpdateDialog }) {
       payload: todo, // payload : additional data that we want to send with the action
     });
     // ================= with UseReducer Hook===================
-    toast.showHideToast(
-      todo.isCompleted ? "عدم انهاء المهمه" : "تم انهاء المهمه",
-    );
+    // toast.showHideToast(
+    //   todo.isCompleted ? "عدم انهاء المهمه" : "تم انهاء المهمه",
+    // );
 
-    //   showSnackbar(
-    //     enqueueSnackbar,
-    //     closeSnackbar,
-    //     todo.isCompleted ? "عدم انهاء المهمه" : "تم انهاء المهمه",
-    //     "success",
-    //   );
+      showSnackbar(
+        enqueueSnackbar,
+        closeSnackbar,
+        todo.isCompleted ? "عدم انهاء المهمه" : "تم انهاء المهمه",
+        "success",
+      );
   };
   //======================================================
   // Edit Dialog

@@ -30,11 +30,11 @@ import ToDo from "../ToDo/ToDo";
 // other
 // import { v4 as uuidv4 } from "uuid";
 //import { TodosContext } from "../../contexts/TodosContext";
-import { useToast } from "../../Hooks/useToast";
+//import { useToast } from "../../Hooks/useToast";
 import useTodos from "../../Hooks/useTodos";
 import useDispatch from "../../Hooks/useDispatch";
-// import { useSnackbar } from "notistack";
-// import { showSnackbar } from "../../utils/snackbar";
+import { useSnackbar } from "notistack";
+import { showSnackbar } from "../../utils/snackbar";
 
 // useReducer
 //import todosReducer from "../../Reducers/todosReducer";
@@ -42,7 +42,7 @@ import useDispatch from "../../Hooks/useDispatch";
 
 function ToDoList() {
   // ======================snackbar========================
-  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   //=====================snackbar========================
 
   // =================== without UseReducer Hook===================
@@ -50,7 +50,7 @@ function ToDoList() {
   // =================== without UseReducer Hook===================
 
   // =================== Toast =====================
-  const toast = useToast();
+  //const toast = useToast();
   // ================== Toast=====================
 
   const [titleInput, setTitleInput] = useState("");
@@ -88,13 +88,13 @@ function ToDoList() {
     // =============== with UseReducer Hook===================
 
     setTitleInput(""); // to clear the input field
-    toast.showHideToast("تم اضافه المهمه بنجاح");
-    // showSnackbar(
-    //   enqueueSnackbar,
-    //   closeSnackbar,
-    //   "تم اضافه المهمه بنجاح",
-    //   "success",
-    // );
+    //toast.showHideToast("تم اضافه المهمه بنجاح");
+    showSnackbar(
+      enqueueSnackbar,
+      closeSnackbar,
+      "تم اضافه المهمه بنجاح",
+      "success",
+    );
   };
   // =====================UseEffect Hook===================
 
@@ -152,7 +152,7 @@ function ToDoList() {
       if (displayedTodos === "notCompleted") return !t.isCompleted;
       return true;
     });
-  }, [todosState, displayedTodos]); // here the useMemo will run again when the todosList or displayedTodos changes
+  }, [todosState, displayedTodos]); // here the useMemo will run again when the todosList or displayedTodos changes only not when the component renders
   // =====================Update toggle button===================
   // =====================ToggleButtons===================
 
@@ -199,9 +199,9 @@ function ToDoList() {
     });
     // ================= with UseReducer Hook===================
     closeEditDialog();
-    toast.showHideToast("تم تعديل المهمه");
+    //toast.showHideToast("تم تعديل المهمه");
 
-    // showSnackbar(enqueueSnackbar, closeSnackbar, "تم تعديل المهمه", "info");
+    showSnackbar(enqueueSnackbar, closeSnackbar, "تم تعديل المهمه", "info");
   }
   // ===================== Edit Dialog====================
 
@@ -232,9 +232,9 @@ function ToDoList() {
     });
     // ================ with UseReducer Hook===================
     handleCloseDeleteDialog();
-    toast.showHideToast("تم حذف المهمه بنجاح");
+    //toast.showHideToast("تم حذف المهمه بنجاح");
 
-    //showSnackbar(enqueueSnackbar, closeSnackbar, "تم الحذف", "error");
+    showSnackbar(enqueueSnackbar, closeSnackbar, "تم الحذف", "error");
   };
   // =====================Delete Dialog====================
 
