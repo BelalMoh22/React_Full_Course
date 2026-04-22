@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* eslint-disable no-empty-pattern */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
 import "./App.css";
@@ -21,6 +23,9 @@ import { GridSystem } from "./components/MaterialUI/GridSystem";
 import BasicStack from "./components/MaterialUI/BasicStack";
 import ToggleButtons from "./components/MaterialUI/ToggleButtons";
 import { Icon } from "./components/MaterialUI/Icon";
+import { useState } from "react";
+import { Dashboard } from "./components/Dashboard/Dashboard";
+import { DashboardContext } from "./contexts/userDemo";
 
 let posts = [
   {
@@ -40,9 +45,33 @@ let posts = [
   },
 ];
 
+// Use Context
+export interface User {
+  isSubscribed: boolean;
+  name: string;
+}
+
+interface DemoProps {}
+export function Demo({}: DemoProps) {
+  const [user] = useState<User>({
+    isSubscribed: false,
+    name: "Belal",
+  });
+
+  return (
+    <div>
+      <DashboardContext.Provider value={user}>
+        <Dashboard />
+      </DashboardContext.Provider>
+    </div>
+  );
+}
 function App() {
   return (
     <>
+      {/* Use Context*/}
+      {/* <Demo /> */}
+
       {/* <UserContext.Provider
         value={{
           username: "Belal",
@@ -88,11 +117,13 @@ function App() {
               </ul>
             </nav>
           </header>
+
           {/* Routing */}
           <SectionTitle title="Routing" />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+
             {/* Nested Routes */}
             <Route path="/posts" element={<PostLayout />}>
               <Route index element={<Posts />} />
