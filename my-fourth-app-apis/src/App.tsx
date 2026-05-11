@@ -1,9 +1,11 @@
 import "./App.css";
 import { Button, Container, Typography } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
-import { useEffect, useState, useMemo } from "react";
-import axios from "axios";
-import { getCurrentWeather } from "./api/axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import { useEffect, useMemo } from "react";
+// import axios from "axios";
+// import { getCurrentWeather } from "./api/axios";
 
 // time format
 import dayjs from "dayjs";
@@ -12,53 +14,45 @@ import "dayjs/locale/ar";
 // translation
 import { useTranslation } from "react-i18next";
 
+// Redux Import
+import { useSelector, useDispatch } from "react-redux";
+import { fetchWeather } from "./features/weather/weatherApiSlice";
+import type { AppDispatch, RootState } from "./store/store";
+
 dayjs.locale("ar");
 
 function App() {
+  // Redux code
+  const weather = useSelector((state: RootState) => state.weatherApi.weather);
+  const isLoading = useSelector(
+    (state: RootState) => state.weatherApi.isLoading,
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
   const { t, i18n } = useTranslation();
-  const [weather, setWeather] = useState({
-    temperature: 0,
-    min: 0,
-    max: 0,
-  });
 
   const dateAndTime = useMemo(() => {
     dayjs.locale(i18n.language);
     return dayjs().format("dddd, D MMMM YYYY, h:mm A");
   }, [i18n.language]);
 
-  // useEffect
+  // useEffect for language
   useEffect(() => {
     const language = localStorage.getItem("language");
 
     if (language) {
       i18n.changeLanguage(language);
     }
+  }, [i18n]);
 
-    const controller = new AbortController();
+  // useEffect for weather
+  useEffect(() => {
+    const weatherRequest = dispatch(fetchWeather());
 
-    const fetchWeather = async () => {
-      try {
-        const data = await getCurrentWeather(controller.signal);
-
-        setWeather({
-          temperature: data.current_weather.temperature,
-          min: data.current_weather.weathercode,
-          max: data.current_weather.winddirection,
-        });
-      } catch (err) {
-        if (axios.isCancel(err)) return;
-        console.error(err);
-      }
-    };
-    fetchWeather();
-
-    // clean up function
     return () => {
-      console.log("clean up");
-      controller.abort();
+      weatherRequest.abort();
     };
-  }, [i18n]); // [] to run only once
+  }, [dispatch]);
 
   function handleChangeLanguage() {
     const newLang = i18n.language === "en" ? "ar" : "en";
@@ -125,14 +119,30 @@ function App() {
               <div>
                 {/* Temp */}
                 <div>
-                  <Typography
-                    variant="h3"
-                    style={{
-                      textAlign: i18n.language === "ar" ? "right" : "left",
-                    }}
-                  >
-                    {weather.temperature}
-                  </Typography>
+                  {isLoading ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent:
+                          i18n.language === "ar" ? "flex-end" : "flex-start",
+                        minHeight: "56px",
+                      }}
+                    >
+                      <CircularProgress
+                        aria-label="Loading..."
+                        sx={{ color: "white" }}
+                      />
+                    </Box>
+                  ) : (
+                    <Typography
+                      variant="h3"
+                      style={{
+                        textAlign: i18n.language === "ar" ? "right" : "left",
+                      }}
+                    >
+                      {weather.temperature} °C
+                    </Typography>
+                  )}
                 </div>
                 {/* ====  Temp ====== */}
 
